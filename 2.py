@@ -44,7 +44,7 @@ openAction.setStatusTip('Open document')
 exitAction = QAction(QIcon('exit.png'), '&Exit', win)
 exitAction.setShortcut('Ctrl+Q')
 exitAction.setStatusTip('Exit application')
-exitAction.triggered.connect(win.exitCall)
+#exitAction.triggered.connect(win.exitCall)
 
 button = QPushButton(win)
 button.setText("This is a button")
