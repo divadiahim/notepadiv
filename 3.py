@@ -112,13 +112,13 @@ class MainWindow(QMainWindow):
         sys.exit()
     def clickMethod(win):
         print('PyQt')
-
+        print('asf')
     def valuechange(win):
         size = win.horizontalSlider.value()
         win.lcdNumber.display(size)
         win.myTextBox.setFont(QFont('Helvetica',size))
         print(size)
-
+        print('asf')
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     mainWin = MainWindow()
@@ -134,8 +134,7 @@ if __name__ == "__main__":
     palette.setColor(QtGui.QPalette.Button, QtGui.QColor(53, 53, 53))
     palette.setColor(QtGui.QPalette.ButtonText, QtCore.Qt.white)
     palette.setColor(QtGui.QPalette.BrightText, QtCore.Qt.red)
-    palette.setColor(QtGui.QPalette.Highlight,
-                     QtGui.QColor(142, 45, 197).lighter())
+    palette.setColor(QtGui.QPalette.Highlight,QtGui.QColor(142, 45, 197).lighter())
     palette.setColor(QtGui.QPalette.HighlightedText, QtCore.Qt.black)
     palette.setColor(palette.Light, QtGui.QColor(255, 255, 255))
     app.setPalette(palette)
