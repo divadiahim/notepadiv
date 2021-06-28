@@ -9,7 +9,7 @@ class MainWindow(QMainWindow):
         QMainWindow.__init__(win)
 
         win.setMinimumSize(QSize(300, 100))    
-        win.setWindowTitle("PyQt Test App") 
+        win.setWindowTitle("Notepadiv") 
         win.setFixedSize(640, 480)
         
         # Add button widget
@@ -21,10 +21,14 @@ class MainWindow(QMainWindow):
         # button.move(470, 40)      
         # button.setToolTip('Foarte misto.')  
 
-        #Add lcd widget
+        #Add lcd widget+label
         win.lcdNumber = QtWidgets.QLCDNumber(win)
         win.lcdNumber.setGeometry(QtCore.QRect(180, 50, 64, 23))
         win.lcdNumber.setObjectName("win.lcdNumber")
+        win.label = QtWidgets.QLabel(win)
+        win.label.setGeometry(QtCore.QRect(260, 50, 116, 19))
+        win.label.setObjectName("label")
+        win.label.setText("Change text size")
         
 
         #add a slider
@@ -35,6 +39,7 @@ class MainWindow(QMainWindow):
         win.horizontalSlider.valueChanged.connect(win.valuechange)
         win.horizontalSlider.setTickInterval(5)
         #win.lcdNumber.display(val)
+        
 
         # Create new action
         newAction = QAction(QIcon('new.png'), '&New', win)        
@@ -64,6 +69,7 @@ class MainWindow(QMainWindow):
         win.myTextBox = QTextEdit(win) 
         win.myTextBox.move(10,120)  
         win.myTextBox.resize(620,350)
+        win.myTextBox.setStyleSheet("border: 1px solid white;")
 
     def openCall(win):
         print('Open')
@@ -110,7 +116,7 @@ if __name__ == "__main__":
     palette.setColor(QtGui.QPalette.Highlight,
                      QtGui.QColor(142, 45, 197).lighter())
     palette.setColor(QtGui.QPalette.HighlightedText, QtCore.Qt.black)
-    palette.setColor(palette.Light, QtGui.QColor(255, 0, 0))
+    palette.setColor(palette.Light, QtGui.QColor(255, 255, 255))
     app.setPalette(palette)
     mainWin.show()
     sys.exit( app.exec_() )
