@@ -14,24 +14,27 @@ class MainWindow(QMainWindow):
         
         # Add button widget
         
-        button = QPushButton(win)
-        button.setText("This is a button")
-        win.setStyleSheet("QPushButton { margin: 40ex;}")
-        button.resize(160, 50)
-        button.move(470, 40)      
-        button.setToolTip('Foarte misto.')  
+        # button = QPushButton(win)
+        # button.setText("This is a button")
+        # win.setStyleSheet("QPushButton { margin: 40ex;}")
+        # button.resize(160, 50)
+        # button.move(470, 40)      
+        # button.setToolTip('Foarte misto.')  
 
         #Add lcd widget
-        lcdNumber = QtWidgets.QLCDNumber(win)
-        lcdNumber.setGeometry(QtCore.QRect(180, 50, 64, 23))
-        lcdNumber.setObjectName("lcdNumber")
+        win.lcdNumber = QtWidgets.QLCDNumber(win)
+        win.lcdNumber.setGeometry(QtCore.QRect(180, 50, 64, 23))
+        win.lcdNumber.setObjectName("win.lcdNumber")
+        
 
         #add a slider
-        horizontalSlider = QtWidgets.QSlider(win)
-        horizontalSlider.setGeometry(QtCore.QRect(10, 50, 160, 20))
-
-        horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
-        horizontalSlider.setObjectName("horizontalSlider")
+        win.horizontalSlider = QtWidgets.QSlider(win)
+        win.horizontalSlider.setGeometry(QtCore.QRect(10, 50, 160, 20))
+        win.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
+        win.horizontalSlider.setObjectName("win.horizontalSlider")
+        win.horizontalSlider.valueChanged.connect(win.valuechange)
+        win.horizontalSlider.setTickInterval(5)
+        #win.lcdNumber.display(val)
 
         # Create new action
         newAction = QAction(QIcon('new.png'), '&New', win)        
@@ -83,6 +86,12 @@ class MainWindow(QMainWindow):
     def clickMethod(win):
         print('PyQt')
 
+    def valuechange(win):
+        size = win.horizontalSlider.value()
+        win.lcdNumber.display(size)
+        win.myTextBox.setFont(QFont('Helvetica',size))
+        print(size)
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     mainWin = MainWindow()
@@ -101,6 +110,7 @@ if __name__ == "__main__":
     palette.setColor(QtGui.QPalette.Highlight,
                      QtGui.QColor(142, 45, 197).lighter())
     palette.setColor(QtGui.QPalette.HighlightedText, QtCore.Qt.black)
+    palette.setColor(palette.Light, QtGui.QColor(255, 0, 0))
     app.setPalette(palette)
     mainWin.show()
     sys.exit( app.exec_() )
