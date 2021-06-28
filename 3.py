@@ -21,6 +21,18 @@ class MainWindow(QMainWindow):
         button.move(470, 40)      
         button.setToolTip('Foarte misto.')  
 
+        #Add lcd widget
+        lcdNumber = QtWidgets.QLCDNumber(win)
+        lcdNumber.setGeometry(QtCore.QRect(180, 50, 64, 23))
+        lcdNumber.setObjectName("lcdNumber")
+
+        #add a slider
+        horizontalSlider = QtWidgets.QSlider(win)
+        horizontalSlider.setGeometry(QtCore.QRect(10, 50, 160, 20))
+
+        horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
+        horizontalSlider.setObjectName("horizontalSlider")
+
         # Create new action
         newAction = QAction(QIcon('new.png'), '&New', win)        
         newAction.setShortcut('Ctrl+N')
