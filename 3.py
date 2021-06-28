@@ -59,12 +59,19 @@ class MainWindow(QMainWindow):
         exitAction.setStatusTip('Exit application')
         exitAction.triggered.connect(win.exitCall)
 
+        # Create save action
+        saveAction = QAction(QIcon('save.png'), '&Save', win)        
+        saveAction.setShortcut('Ctrl+S')
+        saveAction.setStatusTip('Save document')
+        saveAction.triggered.connect(win.saveCall)
+
         # Create menu bar and add action
         menuBar = win.menuBar()
         fileMenu = menuBar.addMenu('&File')
         fileMenu.addAction(newAction)
         fileMenu.addAction(openAction)
         fileMenu.addAction(exitAction) 
+        fileMenu.addAction(saveAction) 
         #create text edit 
         win.myTextBox = QTextEdit(win) 
         win.myTextBox.move(10,120)  
@@ -86,6 +93,15 @@ class MainWindow(QMainWindow):
     def newCall(win):
         print('New')
 
+    def saveCall(win):    
+        print("Save")
+        path = QFileDialog.getSaveFileName(win, 'Save a file', '','All Files (*.*)')
+        file = open(path[0],'w')
+        text=win.myTextBox.toPlainText()
+        file.write(text)
+        file.close()
+        print(text)
+        
     def exitCall(win):
         print('Exit app')
 
