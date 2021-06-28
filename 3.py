@@ -4,9 +4,10 @@ from PyQt5.QtCore import Qt,QSize
 from PyQt5.QtGui import QFont, QPalette,QIcon,QPixmap
 from PyQt5.QtWidgets import QApplication, QLabel, QPushButton, QMainWindow, QMenuBar,QAction,QFileDialog,QTextEdit
 
+        
 class MainWindow(QMainWindow):
     def __init__(win):
-        QMainWindow.__init__(win)
+        super().__init__()
 
         win.setMinimumSize(QSize(300, 100))    
         win.setWindowTitle("Notepadiv") 
@@ -29,7 +30,7 @@ class MainWindow(QMainWindow):
         win.label.setGeometry(QtCore.QRect(260, 50, 116, 19))
         win.label.setObjectName("label")
         win.label.setText("Change text size")
-        
+        win.lcdNumber.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
 
         #add a slider
         win.horizontalSlider = QtWidgets.QSlider(win)
@@ -84,27 +85,31 @@ class MainWindow(QMainWindow):
         if path != ('', ''):
             print("File path : "+ path[0])
             fileName=path[0]
-        file = open(fileName,'r')
-        with file:
-            text=file.read()
-            win.myTextBox.setText(text)
-            win.myTextBox.setFont(QFont('Helvetica',15))
+        if path[0]:    
+            file = open(fileName,'r')
+            with file:
+                text=file.read()
+                win.myTextBox.setText(text)
+                win.myTextBox.setFont(QFont('Helvetica',15))
 
     def newCall(win):
         print('New')
+        win.w = MainWindow()
+        win.w.show()
 
     def saveCall(win):    
         print("Save")
         path = QFileDialog.getSaveFileName(win, 'Save a file', '','All Files (*.*)')
-        file = open(path[0],'w')
-        text=win.myTextBox.toPlainText()
-        file.write(text)
-        file.close()
-        print(text)
-        
+        if path[0]:
+            file = open(path[0],'w')
+            text=win.myTextBox.toPlainText()
+            file.write(text)
+            file.close()
+            print(text)
+
     def exitCall(win):
         print('Exit app')
-
+        sys.exit()
     def clickMethod(win):
         print('PyQt')
 
