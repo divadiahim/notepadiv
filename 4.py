@@ -13,7 +13,6 @@ class MyTableWidget(QWidget):
         # Initialize tab screen
         win.tabs = QTabWidget()
         win.tab1 = QWidget()
-        win.tab2 = QWidget()
         win.tabs.resize(200,200)
         win.tabs.setFixedSize(720,480)
         
@@ -36,6 +35,7 @@ class MyTableWidget(QWidget):
         win.setLayout(win.layout)     
 
 class MainWindow(QMainWindow):
+    
     def __init__(win):
         super().__init__()
 
@@ -149,8 +149,24 @@ class MainWindow(QMainWindow):
     def exitCall(win):
         print('Exit app')
         sys.exit()
+
+
+    x=2
     def clickMethod(win):
-        win.table_widget.tabs.addTab(win.table_widget.tab2,"Tab 2")
+        
+        tab_name="Tab"+str(win.x)
+        win.x+=1
+        print(win.x)
+        win.table_widget.x = QWidget()
+        win.table_widget.tabs.addTab(win.table_widget.x,tab_name)
+        win.table_widget.x.layout = QVBoxLayout(win.table_widget)
+        win.table_widget.myTextBox = QTextEdit(win.table_widget)
+        win.table_widget.myTextBox.setStyleSheet("border: 1px solid white;") 
+        win.table_widget.x.layout.addWidget(win.table_widget.myTextBox)
+        win.table_widget.x.setLayout(win.table_widget.x.layout)
+        # win.table_widget.layout.addWidget(win.table_widget.tabs)
+        # win.table_widget.setLayout(win.table_widget.layout)
+        
     def valuechange(win):
         size = win.horizontalSlider.value()
         win.lcdNumber.display(size)
