@@ -9,10 +9,11 @@ class MainWindow(QMainWindow):
     def __init__(win):
         super().__init__()
 
+
         win.setMinimumSize(QSize(300, 100))    
         win.setWindowTitle("Notepadiv") 
         win.setFixedSize(640, 480)
-        
+        win.setWindowIcon(QIcon('img/icon2.png'))
         # Add button widget
         
         # button = QPushButton(win)
@@ -49,30 +50,31 @@ class MainWindow(QMainWindow):
         newAction.triggered.connect(win.newCall)
 
         # Create new action
-        openAction = QAction(QIcon('open.png'), '&Open', win)        
+        openAction = QAction(QIcon('img/open.png'), '&Open', win)        
         openAction.setShortcut('Ctrl+O')
         openAction.setStatusTip('Open document')
         openAction.triggered.connect(win.openCall)
 
         # Create exit action
-        exitAction = QAction(QIcon('exit.png'), '&Exit', win)        
+        exitAction = QAction(QIcon('img/exit.png'), '&Exit', win)        
         exitAction.setShortcut('Ctrl+Q')
         exitAction.setStatusTip('Exit application')
         exitAction.triggered.connect(win.exitCall)
 
         # Create save action
-        saveAction = QAction(QIcon('save.png'), '&Save', win)        
+        saveAction = QAction(QIcon('img/save.png'), '&Save', win)        
         saveAction.setShortcut('Ctrl+S')
         saveAction.setStatusTip('Save document')
         saveAction.triggered.connect(win.saveCall)
 
         # Create menu bar and add action
         menuBar = win.menuBar()
+        fileMenu0 = menuBar.addMenu('&Notepadiv')
         fileMenu = menuBar.addMenu('&File')
-        fileMenu.addAction(newAction)
+        fileMenu0.addAction(newAction)
         fileMenu.addAction(openAction)
-        fileMenu.addAction(exitAction) 
         fileMenu.addAction(saveAction) 
+        fileMenu.addAction(exitAction)
         #create text edit 
         win.myTextBox = QTextEdit(win) 
         win.myTextBox.move(10,120)  
@@ -118,7 +120,6 @@ class MainWindow(QMainWindow):
         win.lcdNumber.display(size)
         win.myTextBox.setFont(QFont('Helvetica',size))
         print(size)
-        print('asf')
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     mainWin = MainWindow()
@@ -134,7 +135,7 @@ if __name__ == "__main__":
     palette.setColor(QtGui.QPalette.Button, QtGui.QColor(53, 53, 53))
     palette.setColor(QtGui.QPalette.ButtonText, QtCore.Qt.white)
     palette.setColor(QtGui.QPalette.BrightText, QtCore.Qt.red)
-    palette.setColor(QtGui.QPalette.Highlight,QtGui.QColor(142, 45, 197).lighter())
+    palette.setColor(QtGui.QPalette.Highlight,QtGui.QColor(255,255,255).lighter())
     palette.setColor(QtGui.QPalette.HighlightedText, QtCore.Qt.black)
     palette.setColor(palette.Light, QtGui.QColor(255, 255, 255))
     app.setPalette(palette)
