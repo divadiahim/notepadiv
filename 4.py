@@ -13,6 +13,7 @@ class MyTableWidget(QWidget):
         # Initialize tab screen
         win.tabs = QTabWidget()
         win.tab1 = QWidget()
+        win.tab1.setObjectName("aaaa")
         win.tabs.resize(200,200)
         win.tabs.setFixedSize(720,480)
         
@@ -23,17 +24,17 @@ class MyTableWidget(QWidget):
         
         # Create first tab
         win.tab1.layout = QVBoxLayout(win)
-        win.myTextBox = QTextEdit(win)
-        win.myTextBox.move(10,120)  
-        win.myTextBox.resize(620,350)
-        win.myTextBox.setStyleSheet("border: 1px solid white;") 
-        win.tab1.layout.addWidget(win.myTextBox)
+        win.tab1.myTextBox = QTextEdit(win)
+        win.tab1.myTextBox.move(10,120)  
+        win.tab1.myTextBox.resize(620,350)
+        win.tab1.myTextBox.setStyleSheet("border: 1px solid white;") 
+        win.tab1.layout.addWidget(win.tab1.myTextBox)
         win.tab1.setLayout(win.tab1.layout)
         
         # Add tabs to widget
         win.layout.addWidget(win.tabs)
-        win.setLayout(win.layout)     
-
+        win.setLayout(win.layout)  
+         
 class MainWindow(QMainWindow):
     
     def __init__(win):
@@ -47,11 +48,11 @@ class MainWindow(QMainWindow):
         # Add button widget
         
         button = QPushButton(win)
-        button.setText("This is a button")
+        button.setText("Add a new tab")
         win.setStyleSheet("QPushButton { margin: 40ex;}")
-        button.resize(160, 50)
-        button.move(470, 40)      
-        button.setToolTip('Foarte misto.') 
+        button.resize(130, 50)
+        button.move(550, 40)      
+        button.setToolTip('Adds a new tab to the active session.') 
         button.clicked.connect(win.clickMethod)
 
         #Add lcd widget+label
@@ -114,11 +115,17 @@ class MainWindow(QMainWindow):
         win.table_widget = MyTableWidget(win)
         win.table_widget.move(0,80)
         win.table_widget.setFixedSize(740, 480)
-        win.table_widget.myTextBox.setText('ashdjfhjdsg')
+       # win.table_widget.myTextBox.setText('ashdjfhjdsg')
         # win.setCentralWidget(win.table_widget)
        
         
     def openCall(win):
+        win.index=win.table_widget.tabs.currentIndex()   
+        win.w=win.table_widget.tabs.widget(win.index)
+        if win.w:
+            print(win.w.objectName())
+        else:
+            print("No page")
         print('Open')
         path = QFileDialog.getOpenFileName(win, 'Open a file', '','All Files (*.*)')
         if path != ('', ''):
@@ -128,8 +135,8 @@ class MainWindow(QMainWindow):
             file = open(fileName,'r')
             with file:
                 text=file.read()
-                win.myTextBox.setText(text)
-                win.myTextBox.setFont(QFont('Helvetica',15))
+                win.w.myTextBox.setText(text)
+                win.w.myTextBox.setFont(QFont('Helvetica',15))
 
     def newCall(win):
         print('New')
@@ -152,26 +159,41 @@ class MainWindow(QMainWindow):
 
 
     x=2
+    
     def clickMethod(win):
         
         tab_name="Tab"+str(win.x)
+        
         win.x+=1
-        print(win.x)
+        #print(win.x)
         win.table_widget.x = QWidget()
+        win.table_widget.x.setObjectName("dfhkfdhdfh")
         win.table_widget.tabs.addTab(win.table_widget.x,tab_name)
         win.table_widget.x.layout = QVBoxLayout(win.table_widget)
-        win.table_widget.myTextBox = QTextEdit(win.table_widget)
-        win.table_widget.myTextBox.setStyleSheet("border: 1px solid white;") 
-        win.table_widget.x.layout.addWidget(win.table_widget.myTextBox)
+        win.table_widget.x.myTextBox= QTextEdit(win.table_widget)
+        win.table_widget.x.myTextBox.setStyleSheet("border: 1px solid white;") 
+        win.table_widget.x.layout.addWidget(win.table_widget.x.myTextBox)
         win.table_widget.x.setLayout(win.table_widget.x.layout)
-        # win.table_widget.layout.addWidget(win.table_widget.tabs)
-        # win.table_widget.setLayout(win.table_widget.layout)
+        win.table_widget.layout.addWidget(win.table_widget.tabs)
+        win.table_widget.setLayout(win.table_widget.layout)
+       
         
     def valuechange(win):
+        win.index=win.table_widget.tabs.currentIndex()   
+        win.w=win.table_widget.tabs.widget(win.index)
+        if win.w:
+            print(win.w.objectName())
+        else:
+            print("No page")
+        print(win.index)
+        print(win.w.objectName())
         size = win.horizontalSlider.value()
         win.lcdNumber.display(size)
-        win.myTextBox.setFont(QFont('Helvetica',size))
+        win.w.myTextBox.setFont(QFont('Helvetica',size))
         print(size)
+        
+
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     mainWin = MainWindow()
