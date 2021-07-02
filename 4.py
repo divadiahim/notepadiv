@@ -1,4 +1,5 @@
 import sys
+import time
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt,QSize
 from PyQt5.QtGui import QFont, QPalette,QIcon,QPixmap
@@ -87,6 +88,12 @@ class MainWindow(QMainWindow):
         openAction.setStatusTip('Open document')
         openAction.triggered.connect(win.openCall)
 
+         # Create new action
+        openintabAction = QAction(QIcon('img/open.png'), '&Open in new tab', win)        
+        openintabAction.setShortcut('Ctrl+T')
+        openintabAction.setStatusTip('Open document')
+        openintabAction.triggered.connect(win.openCall_newtab)
+
         # Create exit action
         exitAction = QAction(QIcon('img/exit.png'), '&Exit', win)        
         exitAction.setShortcut('Ctrl+Q')
@@ -105,6 +112,7 @@ class MainWindow(QMainWindow):
         fileMenu = menuBar.addMenu('&File')
         fileMenu0.addAction(newAction)
         fileMenu.addAction(openAction)
+        fileMenu.addAction(openintabAction)
         fileMenu.addAction(saveAction) 
         fileMenu.addAction(exitAction)
         #create text edit 
@@ -118,14 +126,10 @@ class MainWindow(QMainWindow):
        # win.table_widget.myTextBox.setText('ashdjfhjdsg')
         # win.setCentralWidget(win.table_widget)
        
-        
+    x=2    
     def openCall(win):
         win.index=win.table_widget.tabs.currentIndex()   
         win.w=win.table_widget.tabs.widget(win.index)
-        if win.w:
-            print(win.w.objectName())
-        else:
-            print("No page")
         print('Open')
         path = QFileDialog.getOpenFileName(win, 'Open a file', '','All Files (*.*)')
         if path != ('', ''):
@@ -138,17 +142,27 @@ class MainWindow(QMainWindow):
                 win.w.myTextBox.setText(text)
                 win.w.myTextBox.setFont(QFont('Helvetica',15))
 
+    def openCall_newtab(win):
+      
+        win.clickMethod()
+        win.table_widget.tabs.setCurrentIndex(win.x-2) 
+        # win.z=win.table_widget.tabs.currentIndex() 
+        # print(win.z)
+        win.openCall()
+
     def newCall(win):
         print('New')
         win.w = MainWindow()
         win.w.show()
 
-    def saveCall(win):    
+    def saveCall(win):
+        win.index=win.table_widget.tabs.currentIndex()   
+        win.w=win.table_widget.tabs.widget(win.index)    
         print("Save")
         path = QFileDialog.getSaveFileName(win, 'Save a file', '','All Files (*.*)')
         if path[0]:
             file = open(path[0],'w')
-            text=win.myTextBox.toPlainText()
+            text=win.w.myTextBox.toPlainText()
             file.write(text)
             file.close()
             print(text)
@@ -158,7 +172,7 @@ class MainWindow(QMainWindow):
         sys.exit()
 
 
-    x=2
+   
     
     def clickMethod(win):
         
