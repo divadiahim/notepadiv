@@ -15,8 +15,8 @@ class MyTableWidget(QWidget):
         win.tabs = QTabWidget()
         win.tab1 = QWidget()
         win.tab1.setObjectName("aaaa")
-        win.tabs.resize(200,200)
-        win.tabs.setFixedSize(720,480)
+        #win.tabs.resize(200,200)
+        #win.tabs.setFixedSize(720,480)
         
         
         # Add tabs
@@ -42,15 +42,15 @@ class MainWindow(QMainWindow):
         super().__init__()
 
 
-        win.setMinimumSize(QSize(300, 100))    
+        win.setMinimumSize(QSize(740, 580))    
         win.setWindowTitle("Notepadiv") 
-        win.setFixedSize(740, 580)
+        # win.setFixedSize(740, 580)
         win.setWindowIcon(QIcon('img/icon2.png'))
         # Add button widget
         
         button = QPushButton(win)
         button.setText("Add a new tab")
-        win.setStyleSheet("QPushButton { margin: 40ex;}")
+        win.setStyleSheet("QPushButton {border-style: solid;border-color: white;border-width: 3px;border-radius: 10px;}")
         button.resize(130, 50)
         button.move(550, 40)      
         button.setToolTip('Adds a new tab to the active session.') 
@@ -117,14 +117,14 @@ class MainWindow(QMainWindow):
         fileMenu.addAction(exitAction)
         #create text edit 
         win.myTextBox = QTextEdit(win) 
-        win.myTextBox.move(10,120)  
-        win.myTextBox.resize(620,350)
-        win.myTextBox.setStyleSheet("border: 1px solid white;")
+        # win.myTextBox.move(10,120)  
+        # win.myTextBox.resize(620,350)
+        # win.myTextBox.setStyleSheet("border: 1px solid white;")
         win.table_widget = MyTableWidget(win)
         win.table_widget.move(0,80)
-        win.table_widget.setFixedSize(740, 480)
+        win.table_widget.setMinimumSize(740, 480)
        # win.table_widget.myTextBox.setText('ashdjfhjdsg')
-        # win.setCentralWidget(win.table_widget)
+       # win.setCentralWidget(win.table_widget)
        
     x=2    
     def openCall(win):
