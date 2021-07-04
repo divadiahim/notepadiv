@@ -1,7 +1,7 @@
 import sys
 import time
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt,QSize
+from PyQt5.QtCore import Qt,QSize,QFileInfo
 from PyQt5.QtGui import QFont, QPalette,QIcon,QPixmap
 from PyQt5.QtWidgets import QApplication, QLabel, QPushButton, QMainWindow, QMenuBar,QAction,QFileDialog,QTextEdit,QWidget,QVBoxLayout,QTabWidget,QToolBar
 
@@ -17,10 +17,12 @@ class MyTableWidget(QWidget):
         win.tab1.setObjectName("aaaa")
         #win.tabs.resize(200,200)
         #win.tabs.setFixedSize(720,480)
-        
+        win.tabs.setTabsClosable(True)
+        win.tabs.setMovable(True)
+        win.tabs.tabCloseRequested.connect(win.delete_tab)
         
         # Add tabs
-        win.tabs.addTab(win.tab1,"Tab 1")
+        win.tabs.addTab(win.tab1,"New tab")
         #win.tabs.addTab(win.tab2,"Tab 2")
         
         # Create first tab
@@ -35,27 +37,40 @@ class MyTableWidget(QWidget):
         # Add tabs to widget
         win.layout.addWidget(win.tabs)
         win.setLayout(win.layout)  
-         
+
+    def delete_tab(win):
+        win.index=win.tabs.currentIndex() 
+        print(win.index)
+        win.tabs.removeTab(win.index)
+        x=win.index
+        print("index is",win.x)
+
 class MainWindow(QMainWindow):
     
     def __init__(win):
         super().__init__()
-
-
         win.setMinimumSize(QSize(740, 580))    
         win.setWindowTitle("Notepadiv") 
         # win.setFixedSize(740, 580)
         win.setWindowIcon(QIcon('img/icon2.png'))
-        # Add button widget
-        
 
+        # Add button for adding a new tab widget
         button = QPushButton(win)
-        button.setText("Add a new tab")
+        button.setText("  New tab  ")
         win.setStyleSheet("QPushButton {border-style: solid;border-color: white;border-width: 3px;border-radius: 10px;}")
         button.resize(130, 50)
         button.move(550, 40)      
         button.setToolTip('Adds a new tab to the active session.') 
         button.clicked.connect(win.clickMethod)
+
+            # Add button for adding a new tab widget
+        # button_delete = QPushButton(win)
+        # button_delete.setText("  Delete tab  ")
+        # win.setStyleSheet("QPushButton {border-style: solid;border-color: white;border-width: 3px;border-radius: 10px;}")
+        # # button_delete.resize(130, 50)
+        # # button.move(550, 40)      
+        # button_delete.setToolTip('Removes current tab from the active session.') 
+        # # button_delete.clicked.connect(win.delete_tab)
 
         #Add lcd widget+label
         win.lcdNumber = QtWidgets.QLCDNumber(win)
@@ -85,6 +100,7 @@ class MainWindow(QMainWindow):
         editToolBar.addWidget( win.horizontalSlider)
         editToolBar.addSeparator()
         editToolBar.addWidget(button)
+        # editToolBar.addWidget(button_delete)
         #editToolBar.setStyleSheet("border: 1px")
           
 
@@ -147,19 +163,22 @@ class MainWindow(QMainWindow):
         if path != ('', ''):
             print("File path : "+ path[0])
             fileName=path[0]
+            filename = QFileInfo(fileName).fileName()
         if path[0]:    
             file = open(fileName,'r')
             with file:
                 text=file.read()
                 win.w.myTextBox.setText(text)
                 win.w.myTextBox.setFont(QFont('Helvetica',15))
-
+                win.table_widget.tabs.setTabText(win.index, filename)
     def openCall_newtab(win):
       
         win.clickMethod()
-        win.table_widget.tabs.setCurrentIndex(win.x-2) 
-        # win.z=win.table_widget.tabs.currentIndex() 
-        # print(win.z)
+        
+        win.index=win.table_widget.tabs.currentIndex()
+        win.table_widget.tabs.setCurrentIndex(win.index+1)  
+        print(win.index)
+      
         win.openCall()
 
     def newCall(win):
@@ -179,22 +198,18 @@ class MainWindow(QMainWindow):
             file.close()
             print(text)
 
+
     def exitCall(win):
         print('Exit app')
         sys.exit()
 
-
-   
-    
     def clickMethod(win):
         
-        tab_name="Tab"+str(win.x)
         
-        win.x+=1
-        #print(win.x)
         win.table_widget.x = QWidget()
+        win.index=win.table_widget.tabs.currentIndex()
         win.table_widget.x.setObjectName("dfhkfdhdfh")
-        win.table_widget.tabs.addTab(win.table_widget.x,tab_name)
+        win.table_widget.tabs.addTab(win.table_widget.x,"New Tab")
         win.table_widget.x.layout = QVBoxLayout(win.table_widget)
         win.table_widget.x.myTextBox= QTextEdit(win.table_widget)
         win.table_widget.x.myTextBox.setStyleSheet("border: 1px solid white;") 
@@ -202,7 +217,12 @@ class MainWindow(QMainWindow):
         win.table_widget.x.setLayout(win.table_widget.x.layout)
         win.table_widget.layout.addWidget(win.table_widget.tabs)
         win.table_widget.setLayout(win.table_widget.layout)
-       
+        if win.index==-1:
+            win.x=2
+        else:     
+            win.table_widget.tabs.setCurrentIndex(win.index+1)
+
+        
         
     def valuechange(win):
         win.index=win.table_widget.tabs.currentIndex()   
@@ -218,7 +238,7 @@ class MainWindow(QMainWindow):
         win.w.myTextBox.setFont(QFont('Helvetica',size))
         print(size)
         
-
+   
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
