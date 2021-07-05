@@ -93,7 +93,7 @@ class MainWindow(QMainWindow):
 
         #create a toolbar
         editToolBar = QToolBar("Edit", win)
-        
+        editToolBar.setStyleSheet("background: transparent;")
         win.addToolBar(editToolBar)
         editToolBar.addWidget(win.lcdNumber)
         editToolBar.addWidget(win.label) 
@@ -136,6 +136,7 @@ class MainWindow(QMainWindow):
 
         # Create menu bar and add action
         menuBar = win.menuBar()
+        menuBar.setStyleSheet("background: transparent;")
         fileMenu0 = menuBar.addMenu('&Notepadiv')
         fileMenu = menuBar.addMenu('&File')
         fileMenu0.addAction(newAction)
@@ -243,6 +244,7 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     mainWin = MainWindow()
+    mainWin.setAttribute(Qt.WA_TranslucentBackground, True)
     app.setStyle('Fusion')
     palette = QtGui.QPalette()
     palette.setColor(QtGui.QPalette.Window, QtGui.QColor(53, 53, 53))
@@ -262,4 +264,6 @@ if __name__ == "__main__":
     palette.setColor(palette.Light, QtGui.QColor(255, 255, 255))
     app.setPalette(palette)
     mainWin.show()
+   
+    
     sys.exit( app.exec_() )
