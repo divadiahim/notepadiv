@@ -49,7 +49,7 @@ class MainWindow(QMainWindow):
     
     def __init__(win):
         super().__init__()
-        win.setMinimumSize(QSize(740, 580))    
+        win.setMinimumSize(QSize(940, 680))    
         win.setWindowTitle("Notepadiv") 
         # win.setFixedSize(740, 580)
         win.setWindowIcon(QIcon('img/icon2.png'))
