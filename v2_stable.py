@@ -1,9 +1,12 @@
 import sys
 import time
+from typing import Text
 from PyQt5 import QtCore, QtGui, QtWidgets,Qt
 from PyQt5.QtCore import Qt,QSize,QFileInfo
 from PyQt5.QtGui import QFont, QPalette,QIcon,QPixmap
 from PyQt5.QtWidgets import QApplication, QLabel, QPushButton, QMainWindow, QMenuBar,QAction,QFileDialog,QTextEdit,QWidget,QVBoxLayout,QTabWidget,QToolBar
+global text_size
+text_size=18
 
 class MyTableWidget(QWidget):
     
@@ -44,7 +47,7 @@ class MyTableWidget(QWidget):
         win.tabs.removeTab(win.index)
         x=win.index
         print("index is",win.x)
-
+a=1
 class MainWindow(QMainWindow):
     
     def __init__(win):
@@ -63,14 +66,14 @@ class MainWindow(QMainWindow):
         button.setToolTip('Adds a new tab to the active session.') 
         button.clicked.connect(win.clickMethod)
 
-            # Add button for adding a new tab widget
-        # button_delete = QPushButton(win)
-        # button_delete.setText("  Delete tab  ")
+        #     #Add button for formating all tabs
+        # button_format = QPushButton(win)
+        # button_format.setText("  Format tab  ")
         # win.setStyleSheet("QPushButton {border-style: solid;border-color: white;border-width: 3px;border-radius: 10px;}")
-        # # button_delete.resize(130, 50)
+        # # button_format.resize(130, 50)
         # # button.move(550, 40)      
-        # button_delete.setToolTip('Removes current tab from the active session.') 
-        # # button_delete.clicked.connect(win.delete_tab)
+        # button_format.setToolTip('Formats all the open tabs with the specified size.') 
+        # button_format.clicked.connect(win.format_tab)
 
         #Add lcd widget+label
         win.lcdNumber = QtWidgets.QLCDNumber(win)
@@ -100,7 +103,7 @@ class MainWindow(QMainWindow):
         editToolBar.addWidget( win.horizontalSlider)
         editToolBar.addSeparator()
         editToolBar.addWidget(button)
-        # editToolBar.addWidget(button_delete)
+        # editToolBar.addWidget(button_format)
         #editToolBar.setStyleSheet("border: 1px")
           
 
@@ -153,8 +156,19 @@ class MainWindow(QMainWindow):
         win.table_widget.setMinimumSize(740, 480)
        # win.table_widget.myTextBox.setText('ashdjfhjdsg')
         win.setCentralWidget(win.table_widget)
-       
-    x=2    
+        # win.init_text_format()
+        win.w=win.table_widget.tabs.widget(0)
+        win.lcdNumber.display(text_size)
+        win.horizontalSlider.setValue(text_size)
+        win.w.myTextBox.setFont(QFont('Helvetica',text_size))
+    x=2 
+    
+    def init_text_format(win):
+        win.lcdNumber.display(text_size)
+        print(text_size)
+        win.table_widget.x.myTextBox.setFont(QFont('Helvetica',text_size))
+        win.horizontalSlider.setValue(text_size)
+
     def openCall(win):
         win.index=win.table_widget.tabs.currentIndex()   
         win.w=win.table_widget.tabs.widget(win.index)
@@ -172,14 +186,13 @@ class MainWindow(QMainWindow):
                 win.w.myTextBox.setFont(QFont('Helvetica',15))
                 win.table_widget.tabs.setTabText(win.index, filename)
     def openCall_newtab(win):
-      
-        win.clickMethod()
         
+        win.clickMethod()
         win.index=win.table_widget.tabs.currentIndex()
         win.table_widget.tabs.setCurrentIndex(win.index+1)  
         print(win.index)
-      
         win.openCall()
+        win.init_text_format()
 
     def newCall(win):
         print('New')
@@ -197,15 +210,16 @@ class MainWindow(QMainWindow):
             file.write(text)
             file.close()
             print(text)
-
-
-    def exitCall(win):
-        print('Exit app')
-        sys.exit()
-
+        
+    def format_tab(win):
+        win.all_tabs_open=win.table_widget.tabs.count()
+        #print("the number of tabs that are open",win.all_tabs_open)
+        for i in range(win.all_tabs_open):
+            print(i)
+            print(text_size)
+            win.table_widget.tabs.widget(i).myTextBox.setFont(QFont('Helvetica',text_size))
+   
     def clickMethod(win):
-        
-        
         win.table_widget.x = QWidget()
         win.index=win.table_widget.tabs.currentIndex()
         win.table_widget.x.setObjectName("dfhkfdhdfh")
@@ -217,14 +231,15 @@ class MainWindow(QMainWindow):
         win.table_widget.x.setLayout(win.table_widget.x.layout)
         win.table_widget.layout.addWidget(win.table_widget.tabs)
         win.table_widget.setLayout(win.table_widget.layout)
+        
         if win.index==-1:
             win.x=2
         else:     
             win.table_widget.tabs.setCurrentIndex(win.index+1)
-
-        
-        
+        win.init_text_format()
+      
     def valuechange(win):
+        
         win.index=win.table_widget.tabs.currentIndex()   
         win.w=win.table_widget.tabs.widget(win.index)
         if win.w:
@@ -233,13 +248,18 @@ class MainWindow(QMainWindow):
             print("No page")
         print(win.index)
         print(win.w.objectName())
-        size = win.horizontalSlider.value()
-        win.lcdNumber.display(size)
-        win.w.myTextBox.setFont(QFont('Helvetica',size))
-        print(size)
+        global text_size
+        text_size = win.horizontalSlider.value()
+        win.lcdNumber.display(text_size)
+        win.w.myTextBox.setFont(QFont('Helvetica',text_size))
+        win.format_tab()
+         
+    def exitCall(win):
+        print('Exit app')
+        sys.exit()
         
-   
-
+    
+        
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     mainWin = MainWindow()
