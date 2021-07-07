@@ -203,7 +203,7 @@ class MainWindow(QMainWindow):
         win.index=win.table_widget.tabs.currentIndex()   
         win.w=win.table_widget.tabs.widget(win.index)    
         print("Save")
-        path = QFileDialog.getSaveFileName(win, 'Save a file', '','All Files (*.*)')
+        path = QFileDialog.getSaveFileName(win, 'Save a file','.txt')
         if path[0]:
             file = open(path[0],'w')
             text=win.w.myTextBox.toPlainText()
