@@ -185,13 +185,17 @@ class MainWindow(QMainWindow):
                 win.w.myTextBox.setText(text)
                 win.w.myTextBox.setFont(QFont('Helvetica',15))
                 win.table_widget.tabs.setTabText(win.index, filename)
-    def openCall_newtab(win):
-        
+        else: 
+            return 0        
+
+    def openCall_newtab(win): 
         win.clickMethod()
         win.index=win.table_widget.tabs.currentIndex()
         win.table_widget.tabs.setCurrentIndex(win.index+1)  
         print(win.index)
-        win.openCall()
+        x=win.openCall()
+        if(x==0):
+            win.table_widget.delete_tab()
         win.init_text_format()
 
     def newCall(win):
