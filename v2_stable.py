@@ -1,17 +1,15 @@
 import sys
-import time
-from typing import Text
 from PyQt5 import QtCore, QtGui, QtWidgets,Qt
 from PyQt5.QtCore import Qt,QSize,QFileInfo
 from PyQt5.QtGui import QFont, QPalette,QIcon,QPixmap
 from PyQt5.QtWidgets import QApplication, QLabel, QPushButton, QMainWindow, QMenuBar,QAction,QFileDialog,QTextEdit,QWidget,QVBoxLayout,QTabWidget,QToolBar
-global text_size
+
 text_size=18
 
 class MyTableWidget(QWidget):
-    
-    def __init__(win, parent=None):
-        super(QWidget, win).__init__(parent)
+        
+    def __init__(win,parent):
+        super().__init__(parent)
         win.layout = QVBoxLayout(win)
         
         # Initialize tab screen
